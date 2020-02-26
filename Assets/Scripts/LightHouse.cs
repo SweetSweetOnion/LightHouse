@@ -15,11 +15,10 @@ public class LightHouse : MonoBehaviour
 	public WaveArc lastWaveArc => _lastWaveArc;
 	public float lastWaveTime => _lastWaveTime;
 
-
-
 	public delegate void BasicEvent();
 	public event BasicEvent OnCreateWave;
 
+	public List<Wave> waves = new List<Wave>();
 
 	public void CreateWave(float waveLevel, Vector3 direction, float rangeAngle,Color c)
 	{
