@@ -1594,6 +1594,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2407070098160697010, guid: ba4860b45914c244e8c2b0acef9ff4a7,
+        type: 3}
+      propertyPath: angleRange
+      value: 0.887
+      objectReference: {fileID: 0}
     - target: {fileID: 2407070098160697020, guid: ba4860b45914c244e8c2b0acef9ff4a7,
         type: 3}
       propertyPath: m_Name

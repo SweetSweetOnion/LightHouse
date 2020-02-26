@@ -42,6 +42,7 @@ public class Player : MonoBehaviour
 		{
 			if(chargeDuration == 0)
 			{
+				animator.SetBool("Impacting", false);
 				OnCharging?.Invoke();
 			}
 			if (chargeDuration > minCharDuration && chargeComplete == false)
@@ -56,7 +57,8 @@ public class Player : MonoBehaviour
 		{
 			if(chargeDuration > minCharDuration)
 			{
-				animator.SetTrigger("Impact");
+				animator.SetBool("Charging", false);
+				animator.SetBool("Impacting", true);
 				
 				if (lh.isInsideWave)
 				{
