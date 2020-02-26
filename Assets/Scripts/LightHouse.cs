@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class LightHouse : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public void CreateWave(int waveLevel)
+	{
+		Wave.SpawnWave(this, waveLevel);
+	}
 }
