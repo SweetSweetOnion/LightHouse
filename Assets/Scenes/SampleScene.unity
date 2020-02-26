@@ -613,7 +613,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waveSpeed: 30
-  waveThickness: 1
+  waveThickness: 4
 --- !u!4 &1433473431
 Transform:
   m_ObjectHideFlags: 0

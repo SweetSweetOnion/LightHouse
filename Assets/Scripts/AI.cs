@@ -12,17 +12,9 @@ public class AI : MonoBehaviour
 
 	private void Update()
 	{
-		for(int i =0; i< WaveManager.instance.allWaves.Count; i++)
+		if (lh.isInsideWave)
 		{
-			Wave w = WaveManager.instance.allWaves[i];
-			if (w.IsInsideWave(transform.position))
-			{
-				Debug.DrawRay(transform.position, Vector3.up * 30,Color.red,1);
-				if (w.CanBounce(lh))
-				{
-					w.Bounce(lh);
-				}
-			}
+			lh.lastWave.Bounce(lh);
 		}
 	}
 }
