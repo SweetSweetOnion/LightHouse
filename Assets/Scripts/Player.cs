@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
 
 	public float baseDuration = 5;
 	public float addDuration = 2;
+	public Transform lamp;
 	
 
 	public float minCharDuration = 1.5f;
@@ -22,6 +23,11 @@ public class Player : MonoBehaviour
 	public event BasicEvent OnCharging;
 	public event BasicEvent OnChargeCanceled;
 
+	private Vector3 direction = Vector3.forward;
+	
+	[Range(0,1)]
+	public float angleRange = 0.5f;
+
 	private void Awake()
 	{
 		lh = GetComponent<LightHouse>();
@@ -30,6 +36,8 @@ public class Player : MonoBehaviour
 
 	private void Update()
 	{
+		direction = lamp.forward;
+		lamp.transform.Rotate(0, Input.GetAxis("Horizontal"), 0);
 		if(Input.GetMouseButton(0) ||  Input.GetAxis("RightTrigger") >= 0.5f)
 		{
 			if(chargeDuration == 0)
@@ -52,12 +60,12 @@ public class Player : MonoBehaviour
 				
 				if (lh.isInsideWave)
 				{
-					lh.CreateWave(lh.lastWaveArc.duration + addDuration);
+					lh.CreateWave(lh.lastWaveArc.duration + addDuration,direction,angleRange);
 					OnWaveBounce?.Invoke();
 				}
 				else
 				{
-					lh.CreateWave(baseDuration);
+					lh.CreateWave(baseDuration,direction,angleRange);
 					OnNewWave?.Invoke();
 				}
 

@@ -18,9 +18,9 @@ public class LightHouse : MonoBehaviour
 	public event BasicEvent OnCreateWave;
 
 
-    public void CreateWave(float waveLevel)
+    public void CreateWave(float waveLevel,Vector3 direction, float rangeAngle)
 	{
-		Wave.SpawnWave(this, waveLevel);
+		Wave.SpawnWave(this, waveLevel,direction,rangeAngle);
 		OnCreateWave?.Invoke();
 	}
 
