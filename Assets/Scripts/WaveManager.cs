@@ -9,6 +9,7 @@ public class WaveManager : MonoBehaviour
 
 	public float waveSpeed = 10;
 	public float waveThickness = 1;
+	public Material waveMaterial;
 
 	private List<Wave> _allWaves = new List<Wave>();
 	public IReadOnlyList<Wave> allWaves => _allWaves;

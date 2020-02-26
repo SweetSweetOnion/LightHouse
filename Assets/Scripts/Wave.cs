@@ -12,6 +12,9 @@ public class Wave : MonoBehaviour
 
 	private WaveArc[] arcs;
 
+	private MeshFilter mf;
+	private MeshRenderer rend;
+	private Mesh mesh;
 
 	private void OnEnable()
 	{
@@ -37,12 +40,20 @@ public class Wave : MonoBehaviour
 	private void Update()
 	{
 		bool isAlive = false;
+		float maxDuration = 0;
 		for (int i = 0; i < arcs.Length; i++)
 		{
 			arcs[i].Update();
 			arcs[i].DebugDisplay();
+			if(arcs[i].duration > maxDuration)
+			{
+				maxDuration = arcs[i].duration;
+			}
 			if (arcs[i].IsArcAlive()) isAlive = true;
 		}
+		rend.material.SetFloat("_Fade", maxDuration/10);
+		UpdateMesh();
+
 
 		if (!isAlive)
 		{
@@ -82,9 +93,47 @@ public class Wave : MonoBehaviour
 	{
 		GameObject g = new GameObject("new wave");
 		Wave w = g.AddComponent<Wave>();
-		g.transform.position = l.transform.position;
+		w.mf = g.AddComponent<MeshFilter>();
+		w.rend = g.AddComponent<MeshRenderer>();
+		w.mesh = new Mesh();
+		w.mesh.MarkDynamic();
+		w.mf.mesh = w.mesh;
+		w.rend.material = WaveManager.instance.waveMaterial;
+		g.transform.position = Vector3.zero;
 		w.emitter = l;
 		w.InitWave(waveDuration,l.transform.position);
 		return w;
+	}
+
+	private void UpdateMesh()
+	{
+		//Vector3[] vertices = new Vector3[arcs.Length * 4];
+		List<Vector3> vertices = new List<Vector3>();
+		List<int> tris = new List<int>();
+		mesh.Clear();
+		for(int i = 0; i < arcs.Length; i++)
+		{
+			vertices.Add(arcs[i].p1);
+			vertices.Add(arcs[i].p2);
+			vertices.Add(arcs[i].p3);
+			vertices.Add(arcs[i].p4);
+
+			tris.Add(i * 4 + 0);
+			tris.Add(i * 4 + 2);
+			tris.Add(i * 4 + 1);
+
+			tris.Add(i * 4 + 1);
+			tris.Add(i * 4 + 2);
+			tris.Add(i * 4 + 3);
+		}
+
+		mesh.vertices = vertices.ToArray();
+		mesh.triangles = tris.ToArray();
+
+		mesh.RecalculateNormals();
+		mesh.MarkDynamic();
+		mesh.RecalculateBounds();
+		mf.mesh = mesh;
+
 	}
 }
