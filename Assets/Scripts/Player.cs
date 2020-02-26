@@ -30,7 +30,7 @@ public class Player : MonoBehaviour
 
 	private void Update()
 	{
-		if(Input.GetAxis("RightTrigger") >= 0.5f)
+		if(Input.GetMouseButton(0) ||  Input.GetAxis("RightTrigger") >= 0.5f)
 		{
 			chargeDuration += Time.deltaTime;
 		}else

@@ -1534,6 +1534,7 @@ GameObject:
   - component: {fileID: 8464126858818632219}
   - component: {fileID: 2518184108973755496}
   - component: {fileID: 5757805137387931864}
+  - component: {fileID: 883381038200793544}
   m_Layer: 0
   m_Name: LightHouseAI
   m_TagString: Untagged
@@ -1541,6 +1542,25 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!95 &883381038200793544
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883381038200793543}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 8671be73a7b8c6742a23c813f9238a12, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!4 &1010947912035889282
 Transform:
   m_ObjectHideFlags: 0
@@ -1576,7 +1596,7 @@ Transform:
   m_GameObject: {fileID: 7591967441825625538}
   m_LocalRotation: {x: -0.7071068, y: -0.0000000012172282, z: 0.0000000012172282,
     w: 0.7071068}
-  m_LocalPosition: {x: 0.87140656, y: 2.29, z: -1.2793274}
+  m_LocalPosition: {x: 0.8714066, y: 2.29, z: -1.279327}
   m_LocalScale: {x: 90.30771, y: 90.30771, z: 33.248184}
   m_Children: []
   m_Father: {fileID: 8464126858818632219}
