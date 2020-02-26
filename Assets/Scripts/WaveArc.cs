@@ -15,6 +15,7 @@ public class WaveArc
 
 
 	public float duration => _duration;
+	public float scale => _scale;
 	public Vector3 p1 => _p1;
 	public Vector3 p2 => _p2;
 	public Vector3 p3 => _p3;

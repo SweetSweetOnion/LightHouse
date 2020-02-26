@@ -19,11 +19,13 @@ public class Wave : MonoBehaviour
 	private void OnEnable()
 	{
 		WaveManager.instance.AddWave(this);
+		emitter.waves.Add(this);
 	}
 
 	private void OnDisable()
 	{
 		WaveManager.instance.RemoveWave(this);
+		emitter.waves.Remove(this);
 	}
 
 	private void InitWave(float duration, Vector3 position, Vector3 direction, float rangeAngle)
@@ -101,9 +103,23 @@ public class Wave : MonoBehaviour
 		reboundList.Add(l);
 	}
 
+	public float GetScale()
+	{
+		float f = 0;
+		foreach (WaveArc a in arcs)
+		{
+			if(a.scale >= f)
+			{
+				f = a.scale;
+			}		
+		}
+		return f;
+	}
+
 	public static Wave SpawnWave(LightHouse l, float waveDuration, Vector3 direction, float rangeAngle, Color c)
 	{
 		GameObject g = new GameObject("new wave");
+		g.SetActive(false);
 		Wave w = g.AddComponent<Wave>();
 		w.mf = g.AddComponent<MeshFilter>();
 		w.rend = g.AddComponent<MeshRenderer>();
@@ -115,6 +131,7 @@ public class Wave : MonoBehaviour
 		g.transform.position = Vector3.zero;
 		w.emitter = l;
 		w.InitWave(waveDuration,l.transform.position, direction, rangeAngle);
+		g.SetActive(true);
 		return w;
 	}
 

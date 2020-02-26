@@ -10,7 +10,6 @@ public class Player : MonoBehaviour
 	public float baseDuration = 5;
 	public float addDuration = 2;
 	public float bufferDuration = 1;
-	public Transform lamp;
 	
 
 	public float minCharDuration = 1.5f;
@@ -38,9 +37,8 @@ public class Player : MonoBehaviour
 
 	private void Update()
 	{
-		direction = lamp.forward;
-		lamp.transform.Rotate(0, Input.GetAxis("Horizontal"), 0);
-		if(Input.GetMouseButton(0) ||  Input.GetAxis("RightTrigger") >= 0.5f)
+		direction = new Vector3(Camera.main.transform.forward.x, 0, Camera.main.transform.forward.z).normalized;
+		if (Input.GetMouseButton(0) ||  Input.GetAxis("RightTrigger") >= 0.5f)
 		{
 			if(chargeDuration == 0)
 			{
