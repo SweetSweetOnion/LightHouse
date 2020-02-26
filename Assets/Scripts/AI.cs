@@ -18,7 +18,7 @@ public class AI : MonoBehaviour
 	{
 		if (lh.isInsideWave)
 		{
-			lh.lastWave.Bounce(lh,lh.lastWaveArc.duration + durationAdd,direction,rangeAngle);
+			lh.lastWaveReceive.Bounce(lh,lh.lastWaveArc.duration + durationAdd,direction,rangeAngle);
 		}
 	}
 

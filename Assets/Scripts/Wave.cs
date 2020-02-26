@@ -97,11 +97,11 @@ public class Wave : MonoBehaviour
 
 	public void Bounce(LightHouse l, float duration, Vector3 direction, float rangeAngle)
 	{
-		SpawnWave(l, duration,direction,rangeAngle);
+		SpawnWave(l, duration,direction,rangeAngle,Color.white);
 		reboundList.Add(l);
 	}
 
-	public static Wave SpawnWave(LightHouse l, float waveDuration, Vector3 direction, float rangeAngle)
+	public static Wave SpawnWave(LightHouse l, float waveDuration, Vector3 direction, float rangeAngle, Color c)
 	{
 		GameObject g = new GameObject("new wave");
 		Wave w = g.AddComponent<Wave>();
@@ -111,6 +111,7 @@ public class Wave : MonoBehaviour
 		w.mesh.MarkDynamic();
 		w.mf.mesh = w.mesh;
 		w.rend.material = WaveManager.instance.waveMaterial;
+		w.rend.material.SetColor("_MainColor", c);
 		g.transform.position = Vector3.zero;
 		w.emitter = l;
 		w.InitWave(waveDuration,l.transform.position, direction, rangeAngle);
