@@ -4,11 +4,15 @@ using System.Collections.Generic;
 
 public class Wave : MonoBehaviour
 {
+	const int RESOLUTION = 50;
+
 	private LightHouse emitter;
 	private float duration = 0;
 	private float scale = 0;
 
 	private List<LightHouse> reboundList = new List<LightHouse>();
+
+	private WaveArc[] arcs;
 
 
 	private void OnEnable()
@@ -21,15 +25,33 @@ public class Wave : MonoBehaviour
 		WaveManager.instance.RemoveWave(this);
 	}
 
+	private void InitWave(float duration, Vector3 position)
+	{
+		arcs = new WaveArc[RESOLUTION];
+		float angle = 0;
+		for (int i = 0; i < arcs.Length; i++)
+		{
+			arcs[i] = new WaveArc(duration,WaveManager.instance.waveSpeed,WaveManager.instance.waveThickness,position,angle,angle + Mathf.PI * 2 / RESOLUTION);
+			angle += Mathf.PI * 2 / RESOLUTION;
+		}
+	}
+
 	private void Update()
 	{
-		duration -= Time.deltaTime;
-		scale += WaveManager.instance.waveSpeed * Time.deltaTime;
-		DebugDisplay();
-		if (duration <= 0)
+		//duration -= Time.deltaTime;
+		//scale += WaveManager.instance.waveSpeed * Time.deltaTime;
+		//DebugDisplay();
+
+		for (int i = 0; i < arcs.Length; i++)
+		{
+			arcs[i].Update();
+		}
+
+		/*if (duration <= 0)
 		{
 			Destroy(gameObject);
-		}
+		}*/
+		
 	}
 
 	private void DebugDisplay()
@@ -74,6 +96,7 @@ public class Wave : MonoBehaviour
 		g.transform.position = l.transform.position;
 		w.emitter = l;
 		w.duration = waveDuration;
+		w.InitWave(waveDuration,l.transform.position);
 		return w;
 	}
 }
