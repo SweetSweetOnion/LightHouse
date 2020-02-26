@@ -27,10 +27,10 @@ MonoBehaviour:
     value: {x: 0.5, y: 0.5}
   intensity:
     overrideState: 1
-    value: 0.437
+    value: 0.427
   smoothness:
     overrideState: 1
-    value: 0.2
+    value: 0.257
   roundness:
     overrideState: 1
     value: 1
@@ -110,13 +110,13 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 0.29
+    value: 0.071
   size:
     overrideState: 1
-    value: 0.31
+    value: 0.3
   lumContrib:
     overrideState: 1
-    value: 1
+    value: 0.245
 --- !u!114 &8329428588850225049
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -135,13 +135,13 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 14.8
+    value: 21.15
   threshold:
     overrideState: 1
     value: 1
   softKnee:
     overrideState: 1
-    value: 0.5
+    value: 0.59
   clamp:
     overrideState: 1
     value: 65472
@@ -163,4 +163,4 @@ MonoBehaviour:
     defaultState: 1
   dirtIntensity:
     overrideState: 1
-    value: 0
+    value: 0.67
