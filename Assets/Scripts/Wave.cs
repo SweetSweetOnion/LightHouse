@@ -26,13 +26,25 @@ public class Wave : MonoBehaviour
 		WaveManager.instance.RemoveWave(this);
 	}
 
-	private void InitWave(float duration, Vector3 position)
+	private void InitWave(float duration, Vector3 position, Vector3 direction, float rangeAngle)
 	{
 		arcs = new WaveArc[RESOLUTION];
 		float angle = 0;
+		float a = Vector3.SignedAngle(direction.normalized, Vector3.forward,Vector3.up) * Mathf.Deg2Rad;
 		for (int i = 0; i < arcs.Length; i++)
 		{
-			arcs[i] = new WaveArc(duration,WaveManager.instance.waveSpeed,WaveManager.instance.waveThickness,position,angle,angle + Mathf.PI * 2 / RESOLUTION);
+			Vector3 v = new Vector3(Mathf.Cos(angle),0, Mathf.Sin(angle));
+			float dot = Vector3.Dot(direction.normalized, v.normalized);
+			dot = (dot + 1) / 2;
+			//float d = 1.0f - (Mathf.Abs(angle - a)) / Mathf.PI*2;	
+			if(dot>= rangeAngle)
+			{
+				dot = duration;
+			}else
+			{
+				dot = 0;
+			}
+			arcs[i] = new WaveArc(dot,WaveManager.instance.waveSpeed,WaveManager.instance.waveThickness,position,angle,angle + Mathf.PI * 2 / RESOLUTION);
 			angle += Mathf.PI * 2 / RESOLUTION;
 		}
 	}
@@ -83,13 +95,13 @@ public class Wave : MonoBehaviour
 		return !reboundList.Contains(l) && l != emitter;
 	}
 
-	public void Bounce(LightHouse l, float duration)
+	public void Bounce(LightHouse l, float duration, Vector3 direction, float rangeAngle)
 	{
-		SpawnWave(l, duration);
+		SpawnWave(l, duration,direction,rangeAngle,Color.white);
 		reboundList.Add(l);
 	}
 
-	public static Wave SpawnWave(LightHouse l, float waveDuration)
+	public static Wave SpawnWave(LightHouse l, float waveDuration, Vector3 direction, float rangeAngle, Color c)
 	{
 		GameObject g = new GameObject("new wave");
 		Wave w = g.AddComponent<Wave>();
@@ -99,9 +111,10 @@ public class Wave : MonoBehaviour
 		w.mesh.MarkDynamic();
 		w.mf.mesh = w.mesh;
 		w.rend.material = WaveManager.instance.waveMaterial;
+		w.rend.material.SetColor("_MainColor", c);
 		g.transform.position = Vector3.zero;
 		w.emitter = l;
-		w.InitWave(waveDuration,l.transform.position);
+		w.InitWave(waveDuration,l.transform.position, direction, rangeAngle);
 		return w;
 	}
 
