@@ -9,12 +9,14 @@ public class Player : MonoBehaviour
 
 	public float baseDuration = 5;
 	public float addDuration = 2;
+	public float bufferDuration = 1;
 	public Transform lamp;
 	
 
 	public float minCharDuration = 1.5f;
 	private float chargeDuration = 0;
 	private bool chargeComplete = false;
+	
 
 	public delegate void BasicEvent();
 	public event BasicEvent OnChargeComplete;
@@ -42,6 +44,7 @@ public class Player : MonoBehaviour
 		{
 			if(chargeDuration == 0)
 			{
+				animator.SetBool("Impacting", false);
 				OnCharging?.Invoke();
 			}
 			if (chargeDuration > minCharDuration && chargeComplete == false)
@@ -56,18 +59,10 @@ public class Player : MonoBehaviour
 		{
 			if(chargeDuration > minCharDuration)
 			{
-				animator.SetTrigger("Impact");
-				
-				if (lh.isInsideWave)
-				{
-					lh.CreateWave(lh.lastWaveArc.duration + addDuration,direction,angleRange);
-					OnWaveBounce?.Invoke();
-				}
-				else
-				{
-					lh.CreateWave(baseDuration,direction,angleRange);
-					OnNewWave?.Invoke();
-				}
+				animator.SetBool("Charging", false);
+				animator.SetBool("Impacting", true);
+				StartCoroutine(WaitAndWave(0.2f));
+			
 
 			}else
 			{
@@ -82,8 +77,25 @@ public class Player : MonoBehaviour
 		}
 	}
 
+	private IEnumerator WaitAndWave(float delay)
+	{
+		yield return new WaitForSeconds(delay);
+		if (lh.isInsideWave || lh.lastWaveTime > Time.time - bufferDuration)
+		{
+			lh.CreateWave(lh.lastWaveArc.duration + addDuration, direction, angleRange, Color.red);
+			OnWaveBounce?.Invoke();
+		}
+		else
+		{
+			lh.CreateWave(baseDuration, direction, angleRange, Color.blue);
+			OnNewWave?.Invoke();
+		}
+
+	}
+
 	public float GetNormalizedCharge()
 	{
 		return Mathf.Clamp01( chargeDuration / minCharDuration);
+	
 	}
 }
