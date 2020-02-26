@@ -11,9 +11,15 @@ public class WaveArc
 	private float _angle;
 	private float _angle2;
 	private Vector3 _centerPoint;
-	private Vector3 p1, p2, p3, p4;
+	private Vector3 _p1, _p2, _p3, _p4;
+
 
 	public float duration => _duration;
+	public Vector3 p1 => _p1;
+	public Vector3 p2 => _p2;
+	public Vector3 p3 => _p3;
+	public Vector3 p4 => _p4;
+
 
 	//contructor
 	public WaveArc(float duration, float speed, float thickness, Vector3 center, float angle, float angle2)
@@ -30,12 +36,12 @@ public class WaveArc
 
 	private void UpdatePos()
 	{
-		p1 = _centerPoint + new Vector3(Mathf.Cos(_angle) * _scale, 0, Mathf.Sin(_angle) * _scale);
-		p2 = _centerPoint + new Vector3(Mathf.Cos(_angle2) * _scale, 0, Mathf.Sin(_angle2) * _scale);
+		_p1 = _centerPoint + new Vector3(Mathf.Cos(_angle) * _scale, 0, Mathf.Sin(_angle) * _scale);
+		_p2 = _centerPoint + new Vector3(Mathf.Cos(_angle2) * _scale, 0, Mathf.Sin(_angle2) * _scale);
 
 
-		p3 = p1 + (_centerPoint - p1).normalized * _thickness;
-		p4 = p2 + (_centerPoint - p2).normalized * _thickness;
+		_p3 = _p1 + (_centerPoint - _p1).normalized * _thickness;
+		_p4 = _p2 + (_centerPoint - _p2).normalized * _thickness;
 	}
 
 	private bool ContainsPoint(Vector2[] polyPoints, Vector2 p)
@@ -77,22 +83,32 @@ public class WaveArc
 	public void DebugDisplay()
 	{
 		Color c = new Color(1, 1, 1, duration / 10);
-		Debug.DrawLine(p1, p2, c);
-		Debug.DrawLine(p2, p4, c);
-		Debug.DrawLine(p4, p3, c);
-		Debug.DrawLine(p3, p1, c);
+		Debug.DrawLine(_p1, _p2, c);
+		Debug.DrawLine(_p2, _p4, c);
+		Debug.DrawLine(_p4, _p3, c);
+		Debug.DrawLine(_p3, _p1, c);
 	}
 
 
 	public bool IsInside(Vector3 point)
 	{
 		Vector2[] vs = new Vector2[4];
-		vs[0] = new Vector2(p1.x, p1.z);
-		vs[1] = new Vector2(p2.x, p2.z);
-		vs[2] = new Vector2(p3.x, p3.z);
-		vs[3] = new Vector2(p4.x, p4.z);
+		vs[0] = new Vector2(_p1.x, _p1.z);
+		vs[1] = new Vector2(_p2.x, _p2.z);
+		vs[2] = new Vector2(_p3.x, _p3.z);
+		vs[3] = new Vector2(_p4.x, _p4.z);
 		return ContainsPoint(vs, new Vector2(point.x, point.z));
 
+	}
+
+	public void StopArc()
+	{
+		_duration = 0;
+	}
+
+	public void AddDuration(float amount)
+	{
+		_duration += amount;
 	}
 
 	#endregion
