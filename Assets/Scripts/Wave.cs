@@ -7,8 +7,6 @@ public class Wave : MonoBehaviour
 	const int RESOLUTION = 50;
 
 	private LightHouse emitter;
-	private float duration = 0;
-	private float scale = 0;
 
 	private List<LightHouse> reboundList = new List<LightHouse>();
 
@@ -38,44 +36,35 @@ public class Wave : MonoBehaviour
 
 	private void Update()
 	{
-		//duration -= Time.deltaTime;
-		//scale += WaveManager.instance.waveSpeed * Time.deltaTime;
-		//DebugDisplay();
-
+		bool isAlive = false;
 		for (int i = 0; i < arcs.Length; i++)
 		{
 			arcs[i].Update();
+			arcs[i].DebugDisplay();
+			if (arcs[i].IsArcAlive()) isAlive = true;
 		}
 
-		/*if (duration <= 0)
+		if (!isAlive)
 		{
 			Destroy(gameObject);
-		}*/
+		}
 		
 	}
 
-	private void DebugDisplay()
+
+	public bool IsInsideWave(Vector3 pos, out WaveArc arc)
 	{
-		float angle = 0;
-		float thick = WaveManager.instance.waveThickness;
-		Color c = new Color(1,1,1, duration/10);
-		for (int i = 0; i < 100; i++)
+		bool b = false;
+		arc = null;
+		foreach(WaveArc a in arcs)
 		{
-			Vector3 v0 = new Vector3(Mathf.Cos(angle) * scale, 0, Mathf.Sin(angle) * scale);
-			Vector3 v1 = new Vector3(Mathf.Cos(angle) * (scale - thick), 0, Mathf.Sin(angle) * (scale - thick));
-			angle += Mathf.PI * 2 / 100;
-			Vector3 v2 = new Vector3(Mathf.Cos(angle) * scale, 0, Mathf.Sin(angle) * scale);
-			Vector3 v3 = new Vector3(Mathf.Cos(angle) * (scale - thick), 0, Mathf.Sin(angle) * (scale - thick));
-
-			Debug.DrawLine(transform.position + v0, transform.position + v2,c);
-			Debug.DrawLine(transform.position + v1, transform.position + v3,c);
+			if (a.IsInside(pos))
+			{
+				arc = a;
+				b = true;
+			}
 		}
-	}
-
-	public bool IsInsideWave(Vector3 pos)
-	{
-		float dist = (new Vector3(emitter.transform.position.x, 0, emitter.transform.position.z) - new Vector3(pos.x, 0, pos.z)).magnitude;
-		return (dist < scale && dist > scale - WaveManager.instance.waveThickness);
+		return b;
 	}
 
 	public bool CanBounce(LightHouse l)
@@ -83,9 +72,9 @@ public class Wave : MonoBehaviour
 		return !reboundList.Contains(l) && l != emitter;
 	}
 
-	public void Bounce(LightHouse l)
+	public void Bounce(LightHouse l, float duration)
 	{
-		SpawnWave(l, duration + 1);
+		SpawnWave(l, duration);
 		reboundList.Add(l);
 	}
 
@@ -95,7 +84,6 @@ public class Wave : MonoBehaviour
 		Wave w = g.AddComponent<Wave>();
 		g.transform.position = l.transform.position;
 		w.emitter = l;
-		w.duration = waveDuration;
 		w.InitWave(waveDuration,l.transform.position);
 		return w;
 	}

@@ -5,6 +5,7 @@ using System.Collections;
 public class Player : MonoBehaviour
 {
 	private LightHouse lh;
+	public float baseDuration = 5;
 
 	private void Awake()
 	{
@@ -15,7 +16,7 @@ public class Player : MonoBehaviour
 	{
 		if(Input.anyKeyDown)
 		{
-			lh.CreateWave(10);
+			lh.CreateWave(baseDuration);
 		}
 	}
 }
