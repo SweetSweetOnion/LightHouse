@@ -8,6 +8,7 @@ public class LightHouse : MonoBehaviour
 	private Wave _lastWaveReceive = null;
 	private WaveArc _lastWaveArc = null;
 	private float _lastWaveTime = 0;
+	public float waveAmplitude = 10;
 
 	//accessors
 	public bool isInsideWave => _isInsideWave;
