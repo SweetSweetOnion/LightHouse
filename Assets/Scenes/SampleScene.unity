@@ -696,7 +696,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.48694253, y: -0, z: -0, w: 0.873434}
-  m_LocalPosition: {x: 1, y: 22.9, z: -17}
+  m_LocalPosition: {x: -72, y: 22.9, z: -36.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1533,8 +1533,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8464126858818632219}
   - component: {fileID: 2518184108973755496}
-  - component: {fileID: 5757805137387931864}
   - component: {fileID: 883381038200793544}
+  - component: {fileID: 883381038200793545}
   m_Layer: 0
   m_Name: LightHouseAI
   m_TagString: Untagged
@@ -1561,6 +1561,21 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &883381038200793545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883381038200793543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61ff1284357a45f45be1441e40b5b77c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  baseDuration: 5
+  addDuration: 2
+  minCharDuration: 1.5
 --- !u!4 &1010947912035889282
 Transform:
   m_ObjectHideFlags: 0
@@ -1636,19 +1651,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4462566538548925123}
   m_Mesh: {fileID: -7767684645917276711, guid: 8560aad2cb367044792450bf90821013, type: 3}
---- !u!114 &5757805137387931864
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 883381038200793543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 67e0e12181f7bfc42a30ca41d6df5de4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  durationAdd: 4
 --- !u!23 &7042658437955809336
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1838,6 +1840,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LightHousePlayer
+      objectReference: {fileID: 0}
+    - target: {fileID: 5474341718403792827, guid: ceab567f9663e9b479886e8e941ab794,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6067554391461397514, guid: ceab567f9663e9b479886e8e941ab794,
         type: 3}
