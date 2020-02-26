@@ -4,7 +4,6 @@ using System.Collections.Generic;
 
 public class Wave : MonoBehaviour
 {
-
 	private LightHouse emitter;
 	private float duration = 0;
 	private float scale = 0;
