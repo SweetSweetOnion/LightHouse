@@ -14,9 +14,14 @@ public class LightHouse : MonoBehaviour
 	public WaveArc lastWaveArc => _lastWaveArc;
 
 
+	public delegate void BasicEvent();
+	public event BasicEvent OnCreateWave;
+
+
     public void CreateWave(float waveLevel)
 	{
 		Wave.SpawnWave(this, waveLevel);
+		OnCreateWave?.Invoke();
 	}
 
 	private void Update()

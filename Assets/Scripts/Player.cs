@@ -9,14 +9,18 @@ public class Player : MonoBehaviour
 
 	public float baseDuration = 5;
 	public float addDuration = 2;
-	/*public AnimationCurve chargeCurve;
-	public Transform lightHouse;
-	public Transform targetPos;
-	private Vector3 startPos, startScale;
-	private Quaternion startRot;*/
+	
 
 	public float minCharDuration = 1.5f;
 	private float chargeDuration = 0;
+	private bool chargeComplete = false;
+
+	public delegate void BasicEvent();
+	public event BasicEvent OnChargeComplete;
+	public event BasicEvent OnNewWave;
+	public event BasicEvent OnWaveBounce;
+	public event BasicEvent OnCharging;
+	public event BasicEvent OnChargeCanceled;
 
 	private void Awake()
 	{
@@ -24,42 +28,50 @@ public class Player : MonoBehaviour
 		animator = GetComponent<Animator>();
 	}
 
-	/*private void Start()
-	{
-		startPos = lightHouse.transform.position;
-		startScale = lightHouse.transform.localScale;
-		startRot = lightHouse.transform.rotation;
-	}*/
-
 	private void Update()
 	{
 		if(Input.GetMouseButton(0) ||  Input.GetAxis("RightTrigger") >= 0.5f)
 		{
+			if(chargeDuration == 0)
+			{
+				OnCharging?.Invoke();
+			}
+			if (chargeDuration > minCharDuration && chargeComplete == false)
+			{
+				chargeComplete = true;
+				OnChargeComplete?.Invoke();
+			}
 			chargeDuration += Time.deltaTime;
 			animator.SetBool("Charging",true);
+			
 		}else
 		{
 			if(chargeDuration > minCharDuration)
 			{
 				animator.SetTrigger("Impact");
+				
 				if (lh.isInsideWave)
 				{
 					lh.CreateWave(lh.lastWaveArc.duration + addDuration);
+					OnWaveBounce?.Invoke();
 				}
 				else
 				{
 					lh.CreateWave(baseDuration);
-				}	
+					OnNewWave?.Invoke();
+				}
+
+			}else
+			{
+				if(chargeDuration > 0)
+				{
+					OnChargeCanceled?.Invoke();
+				}
 			}
+			chargeComplete = false;
 			animator.SetBool("Charging", false);
 			chargeDuration = 0;
 		}
-
-		
-
-		/*lightHouse.transform.position = Vector3.Lerp(startPos, targetPos.position, GetNormalizedCharge());
-		lightHouse.transform.localScale = Vector3.Lerp(startScale, targetPos.localScale, GetNormalizedCharge());
-		lightHouse.transform.rotation = Quaternion.Lerp(startRot, targetPos.rotation, GetNormalizedCharge());*/
 	}
 
 	public float GetNormalizedCharge()
