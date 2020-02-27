@@ -6,7 +6,7 @@ public class Wave : MonoBehaviour
 {
 	const int RESOLUTION = 50;
 
-	private LightHouse emitter;
+	private LightHouse _emitter;
 
 	private List<LightHouse> reboundList = new List<LightHouse>();
 
@@ -16,16 +16,22 @@ public class Wave : MonoBehaviour
 	private MeshRenderer rend;
 	private Mesh mesh;
 
+	public LightHouse emitter => _emitter;
+
+	private float _maxDuration;
+	public float maxDuration => _maxDuration;
+	
+
 	private void OnEnable()
 	{
 		WaveManager.instance.AddWave(this);
-		emitter.waves.Add(this);
+		_emitter.waves.Add(this);
 	}
 
 	private void OnDisable()
 	{
 		WaveManager.instance.RemoveWave(this);
-		emitter.waves.Remove(this);
+		_emitter.waves.Remove(this);
 	}
 
 	private void InitWave(float duration, Vector3 position, Vector3 direction, float rangeAngle)
@@ -49,6 +55,7 @@ public class Wave : MonoBehaviour
 			arcs[i] = new WaveArc(dot,WaveManager.instance.waveSpeed,WaveManager.instance.waveThickness,position,angle,angle + Mathf.PI * 2 / RESOLUTION);
 			angle += Mathf.PI * 2 / RESOLUTION;
 		}
+		_maxDuration = duration;
 	}
 
 	private void Update()
@@ -94,12 +101,13 @@ public class Wave : MonoBehaviour
 
 	public bool CanBounce(LightHouse l)
 	{
-		return !reboundList.Contains(l) && l != emitter;
+		return !reboundList.Contains(l) && l != _emitter;
 	}
 
 	public void Bounce(LightHouse l, float duration, Vector3 direction, float rangeAngle)
 	{
-		SpawnWave(l, duration,direction,rangeAngle,Color.white);
+		//SpawnWave(l, duration,direction,rangeAngle,Color.white);
+		l.CreateWave(duration, direction, rangeAngle);
 		reboundList.Add(l);
 	}
 
@@ -129,7 +137,7 @@ public class Wave : MonoBehaviour
 		w.rend.material = WaveManager.instance.waveMaterial;
 		w.rend.material.SetColor("_MainColor", c);
 		g.transform.position = Vector3.zero;
-		w.emitter = l;
+		w._emitter = l;
 		w.InitWave(waveDuration,l.transform.position, direction, rangeAngle);
 		g.SetActive(true);
 		return w;

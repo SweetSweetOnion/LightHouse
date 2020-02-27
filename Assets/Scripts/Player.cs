@@ -7,8 +7,8 @@ public class Player : MonoBehaviour
 	private LightHouse lh;
 	private Animator animator;
 
-	public float baseDuration = 5;
-	public float addDuration = 2;
+	public float waveBaseDuration = 5;
+	//public float addDuration = 2;
 	public float bufferDuration = 1;
 	
 
@@ -77,15 +77,20 @@ public class Player : MonoBehaviour
 
 	private IEnumerator WaitAndWave(float delay)
 	{
-		yield return new WaitForSeconds(delay);
+		bool b = false;
 		if (lh.isInsideWave || lh.lastWaveTime > Time.time - bufferDuration)
 		{
-			lh.CreateWave(lh.lastWaveArc.duration + addDuration, direction, angleRange, Color.red);
+			b = true;
+		}
+			yield return new WaitForSeconds(delay);
+		if (lh.isInsideWave || lh.lastWaveTime > Time.time - bufferDuration|| b)
+		{
+			lh.CreateWave(lh.lastWaveReceive.maxDuration, direction, angleRange);
 			OnWaveBounce?.Invoke();
 		}
 		else
 		{
-			lh.CreateWave(baseDuration, direction, angleRange, Color.blue);
+			lh.CreateWave(waveBaseDuration, direction, angleRange);
 			OnNewWave?.Invoke();
 		}
 

@@ -7,6 +7,9 @@ public class WaveManager : MonoBehaviour
 {
 	public static WaveManager instance;
 
+	public float maxWaveDuration = 20;
+	public Gradient waveGradient;
+
 	public float waveSpeed = 10;
 	public float waveThickness = 1;
 	public Material waveMaterial;
@@ -35,6 +38,10 @@ public class WaveManager : MonoBehaviour
 		_allWaves.Remove(w);
 	}
 
+	public Color GetWaveColor(float waveDuration)
+	{
+		return waveGradient.Evaluate(waveDuration / maxWaveDuration);
+	}
 
 
 
