@@ -99,6 +99,15 @@ public class Player : MonoBehaviour
 	public float GetNormalizedCharge()
 	{
 		return Mathf.Clamp01( chargeDuration / minCharDuration);
-	
+	}
+
+	private void OnDrawGizmos()
+	{
+		WaveManager wm = FindObjectOfType<WaveManager>();
+		for(int i = 0; i < 20; i++)
+		{
+			Gizmos.DrawWireSphere(transform.position, i * wm.waveSpeed);
+		}
+		
 	}
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
 	public static AudioManager instance;
-
+	public AudioClip[] boomAudio;
 	public AudioClip[] waveAudio;
 	public float startDelay = 0;
 	public float transitionDuration = 3;
@@ -81,5 +81,10 @@ public class AudioManager : MonoBehaviour
 		sources[from].Stop();
 		current = to;
 		fading = false;
+	}
+
+	public AudioClip GetRandom(AudioClip[] clips)
+	{
+		return clips[Random.Range(0, clips.Length)];
 	}
 }
