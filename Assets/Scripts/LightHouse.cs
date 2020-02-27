@@ -8,6 +8,7 @@ public class LightHouse : MonoBehaviour
 	private Wave _lastWaveReceive = null;
 	private WaveArc _lastWaveArc = null;
 	private float _lastWaveTime = 0;
+	public float waveAmplitude = 10;
 
 	//accessors
 	public bool isInsideWave => _isInsideWave;
@@ -29,11 +30,15 @@ public class LightHouse : MonoBehaviour
 	private void Update()
 	{
 		CheckInside();
+		if(Time.time > lastWaveTime + 0.5f)
+		{
+			_isInsideWave = false;
+		}
 	}
 
 	private void CheckInside()
 	{
-		_isInsideWave = false;
+		//sInsideWave = false;
 		WaveArc arc = null;
 		for (int i = 0; i < WaveManager.instance.allWaves.Count; i++)
 		{
