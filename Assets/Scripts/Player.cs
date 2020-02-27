@@ -77,8 +77,13 @@ public class Player : MonoBehaviour
 
 	private IEnumerator WaitAndWave(float delay)
 	{
-		yield return new WaitForSeconds(delay);
+		bool b = false;
 		if (lh.isInsideWave || lh.lastWaveTime > Time.time - bufferDuration)
+		{
+			b = true;
+		}
+			yield return new WaitForSeconds(delay);
+		if (lh.isInsideWave || lh.lastWaveTime > Time.time - bufferDuration|| b)
 		{
 			lh.CreateWave(lh.lastWaveReceive.emitter.waveAmplitude, direction, angleRange, Color.red);
 			OnWaveBounce?.Invoke();
