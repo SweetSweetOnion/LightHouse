@@ -106,7 +106,8 @@ public class Wave : MonoBehaviour
 
 	public void Bounce(LightHouse l, float duration, Vector3 direction, float rangeAngle)
 	{
-		SpawnWave(l, duration,direction,rangeAngle,Color.white);
+		//SpawnWave(l, duration,direction,rangeAngle,Color.white);
+		l.CreateWave(duration, direction, rangeAngle);
 		reboundList.Add(l);
 	}
 
