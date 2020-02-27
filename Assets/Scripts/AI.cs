@@ -10,6 +10,8 @@ public class AI : MonoBehaviour
 	public Vector3 direction = Vector3.forward;
 
 	private Wave lastWaveBounce = null;
+	public float waveBaseDuration = 5;
+
 	private void Awake()
 	{
 		lh = GetComponent<LightHouse>();
@@ -22,7 +24,7 @@ public class AI : MonoBehaviour
 			if(lastWaveBounce != lh.lastWaveReceive)
 			{
 				lastWaveBounce = lh.lastWaveReceive;
-				lh.lastWaveReceive.Bounce(lh, lh.lastWaveReceive.maxDuration, direction, rangeAngle);
+				lh.lastWaveReceive.Bounce(lh, Mathf.Max(waveBaseDuration, lh.lastWaveReceive.maxDuration), direction, rangeAngle);
 			}		
 		}
 	}

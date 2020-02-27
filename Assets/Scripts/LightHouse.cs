@@ -18,12 +18,13 @@ public class LightHouse : MonoBehaviour
 
 	public delegate void BasicEvent();
 	public event BasicEvent OnCreateWave;
+	public event BasicEvent OnReceiveWave;
 
 	public List<Wave> waves = new List<Wave>();
 
-	public void CreateWave(float waveLevel, Vector3 direction, float rangeAngle,Color c)
+	public void CreateWave(float waveDuration, Vector3 direction, float rangeAngle)
 	{
-		Wave.SpawnWave(this, waveLevel, direction, rangeAngle, c);
+		Wave.SpawnWave(this, waveDuration, direction, rangeAngle, WaveManager.instance.GetWaveColor(waveDuration));
 		OnCreateWave?.Invoke();
 	}
 
@@ -47,6 +48,10 @@ public class LightHouse : MonoBehaviour
 			{
 				if (w.CanBounce(this))
 				{
+					if(_lastWaveReceive != w)
+					{
+						OnReceiveWave?.Invoke();
+					}
 					_lastWaveReceive = w;
 					_isInsideWave = true;
 					_lastWaveArc = arc;
