@@ -17,6 +17,7 @@ public class TextSystem : MonoBehaviour
 	public TextMeshProUGUI text;
 	public float textDisplayDuration = 10;
 
+	private bool isDisplay = false;
     void Awake()
     {
 		texts = GetComponentsInChildren<TextMeshPro>();
@@ -34,16 +35,17 @@ public class TextSystem : MonoBehaviour
 
 	private void OnEnable()
 	{
-		LightHouseWaveSignal.OnLightHouseActive += OnHouseLightActive;
+		FindObjectOfType<Player>().OnWaveBounce  += OnDisplayText;
 	}
 
 	private void OnDisable()
 	{
-		LightHouseWaveSignal.OnLightHouseActive -= OnHouseLightActive;
+		FindObjectOfType<Player>().OnWaveBounce -= OnDisplayText;
 	}
 
-	private void OnHouseLightActive()
+	private void OnDisplayText()
 	{
+		if(!isDisplay)
 		StartCoroutine(DisplayText());
 	}
 
@@ -65,9 +67,26 @@ public class TextSystem : MonoBehaviour
 
 	IEnumerator DisplayText()
 	{
+		isDisplay = true;
 		text.text = Pick(lines2);
+		float t = 0;
+		Color c = text.color;
+		while (t < 1)
+		{
+			t += Time.deltaTime;
+			text.color = Color.Lerp(new Color(c.r, c.g, c.b, 0), new Color(c.r, c.g, c.b, 1), t);
+			yield return null;
+		}
 		yield return new WaitForSeconds(textDisplayDuration);
+		t = 0;
+		while (t < 1)
+		{
+			t += Time.deltaTime;
+			text.color = Color.Lerp(new Color(c.r, c.g, c.b, 1), new Color(c.r, c.g, c.b, 0), t);
+			yield return null;
+		}
 		text.text = "";
+		isDisplay = false;
 	}
 
 }
