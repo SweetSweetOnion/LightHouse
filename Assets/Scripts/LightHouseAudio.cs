@@ -26,10 +26,13 @@ public class LightHouseAudio : MonoBehaviour
 
 	private void OnCreateWave()
 	{
-		if (!src.isPlaying)
+		src.PlayOneShot(AudioManager.instance.GetRandom(AudioManager.instance.boomAudio));
+		src.PlayOneShot(AudioManager.instance.GetRandom(AudioManager.instance.waveAudio),0.5f);
+		/*if (!src.isPlaying)
 		{
+			
 			src.clip = AudioManager.instance.waveAudio[Random.Range(0, AudioManager.instance.waveAudio.Length)];
 			src.Play();
-		}
+		}*/
 	}
 }
