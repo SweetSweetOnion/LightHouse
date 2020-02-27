@@ -6,6 +6,10 @@ public class LightHouseAudio : MonoBehaviour
 {
 	private AudioSource src;
 	private LightHouse lh;
+	[Range(0, 1)]
+	public float waveVolume = 1;
+	[Range(0, 1)]
+	public float boomVolume = 1;
 
 	private void Awake()
 	{
@@ -26,8 +30,9 @@ public class LightHouseAudio : MonoBehaviour
 
 	private void OnCreateWave()
 	{
-		src.PlayOneShot(AudioManager.instance.GetRandom(AudioManager.instance.boomAudio));
-		src.PlayOneShot(AudioManager.instance.GetRandom(AudioManager.instance.waveAudio),0.5f);
+		src.PlayOneShot(AudioManager.instance.GetRandom(AudioManager.instance.boomAudio),boomVolume);
+		src.PlayOneShot(AudioManager.instance.GetRandom(AudioManager.instance.waveAudio),waveVolume);
+		
 		/*if (!src.isPlaying)
 		{
 			

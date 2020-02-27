@@ -45,19 +45,15 @@ public class WaveArc
 		_p4 = _p2 + (_centerPoint - _p2).normalized * _thickness;
 	}
 
-	private bool ContainsPoint(Vector2[] polyPoints, Vector2 p)
+	private bool WindingPoints(Vector2 point)
 	{
-		var j = polyPoints.Length - 1;
-		var inside = false;
-		for (int i = 0; i < polyPoints.Length; j = i++)
-		{
-			var pi = polyPoints[i];
-			var pj = polyPoints[j];
-			if (((pi.y <= p.y && p.y <= pj.y) || (pj.y <= p.y && p.y <= pi.y)) &&
-				(p.x <= (pj.x - pi.x) * (p.y - pi.y) / (pj.y - pi.y) + pi.x))
-				inside = !inside;
-		}
-		return inside;
+		
+		Vector2 d1 = new Vector2(p1.x, p1.z) - point;
+		Vector2 d2 = new Vector2(p2.x, p2.z) - point;
+		Vector2 d3 = new Vector2(p4.x, p4.z) - point;
+		Vector2 d4 = new Vector2(p3.x, p3.z) - point;
+
+		return (Vector2.Angle(d4, d1) + Vector2.Angle(d1, d2) + Vector2.Angle(d2, d3) + Vector2.Angle(d3, d1) >= 360.0f);
 	}
 
 	#endregion
@@ -93,12 +89,13 @@ public class WaveArc
 
 	public bool IsInside(Vector3 point)
 	{
-		Vector2[] vs = new Vector2[4];
+		/*Vector2[] vs = new Vector2[4];
 		vs[0] = new Vector2(_p1.x, _p1.z);
 		vs[1] = new Vector2(_p2.x, _p2.z);
 		vs[2] = new Vector2(_p3.x, _p3.z);
 		vs[3] = new Vector2(_p4.x, _p4.z);
-		return ContainsPoint(vs, new Vector2(point.x, point.z));
+		return ContainsPoint(vs, new Vector2(point.x, point.z));*/
+		return WindingPoints(new Vector2(point.x,point.z));
 
 	}
 
